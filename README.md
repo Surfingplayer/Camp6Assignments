@@ -59,3 +59,99 @@ export class AppComponent {
     </li>
   </ul>
 </div>
+
+
+
+
+
+
+
+
+
+-------------------------------------------
+
+using System;
+using System.IO;
+using System.Collections.Generic;
+
+namespace FileOperations
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Sample file path (replace with the actual file path)
+            string filePath = "sample.txt";
+
+            // Read all text from the file
+            string content = File.ReadAllText(filePath);
+
+            // Search for a word and print its occurrences
+            string wordToSearch = "example"; // Replace with the actual word to search
+            int occurrences = CountOccurrences(content, wordToSearch);
+            Console.WriteLine($"The word '{wordToSearch}' occurs {occurrences} times.");
+
+            // Count and print the frequency of each vowel
+            Dictionary<char, int> vowelCounts = CountVowels(content);
+            foreach (var kvp in vowelCounts)
+            {
+                Console.WriteLine($"Vowel '{kvp.Key}' occurs {kvp.Value} times.");
+            }
+        }
+
+        // Function to count occurrences of a word in text
+        static int CountOccurrences(string text, string word)
+        {
+            // Convert text and word to lower case for case-insensitive search
+            text = text.ToLower();
+            word = word.ToLower();
+
+            // Split the text into words
+            string[] words = text.Split(new char[] { ' ', '\t', '\n', '\r', '.', ',', ';', '!', '?' }, StringSplitOptions.RemoveEmptyEntries);
+
+            // Count how many times the word appears in the text
+            int count = 0;
+            foreach (string w in words)
+            {
+                if (w == word)
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
+        // Function to count frequency of each vowel in text
+        static Dictionary<char, int> CountVowels(string text)
+        {
+            // Define vowels
+            char[] vowels = { 'a', 'e', 'i', 'o', 'u' };
+
+            // Dictionary to hold the count of each vowel
+            var vowelCounts = new Dictionary<char, int>();
+
+            // Convert text to lower case for case-insensitive count
+            text = text.ToLower();
+
+            // Count each vowel in the text
+            foreach (char c in text)
+            {
+                if (Array.Exists(vowels, v => v == c))
+                {
+                    if (vowelCounts.ContainsKey(c))
+                    {
+                        vowelCounts[c]++;
+                    }
+                    else
+                    {
+                        vowelCounts[c] = 1;
+                    }
+                }
+            }
+
+            return vowelCounts;
+        }
+    }
+}
+
